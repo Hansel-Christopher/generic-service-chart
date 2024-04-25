@@ -1,0 +1,33 @@
+{{/* Generate Kubernetes Services for the application */}}
+{{- define "service-chart.services" -}}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "service-chart.fullname" . }}
+  labels:
+    {{- include "service-chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+  selector:
+    app: {{ include "service-chart.name" . }}
+    release: {{ .Release.Name }}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "service-chart.fullname" . }}-preview
+  labels:
+    {{- include "service-chart.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+  selector:
+    app: {{ include "service-chart.name" . }}
+    release: {{ .Release.Name }}
+{{- end }}

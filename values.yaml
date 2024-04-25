@@ -1,0 +1,29 @@
+replicaCount: 2
+
+image:
+  repository: password-generator
+  pullPolicy: IfNotPresent
+  tag: "v1.0.0"
+
+resources: {}
+
+nodeSelector: {}
+affinity: {}
+tolerations: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+containerPort: 5000
+
+ingress:
+  enabled: false
+  className: "nginx"
+  annotations: {}
+  hosts:
+    - host: localhost
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
