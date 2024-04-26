@@ -5,7 +5,7 @@ metadata:
   labels:
     {{- include "service-chart.standardLabels" . }}
 spec:
-  minAvailable: {{ .Values.pdb.minAvailable | default 1 }}
+  maxUnavailable: {{ .Values.pdb.maxUnavailable | default 1 }}
   selector:
     matchLabels:
       {{- include "service-chart.selectorLabels" . | nindent 6 }}
