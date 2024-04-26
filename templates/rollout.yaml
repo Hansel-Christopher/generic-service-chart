@@ -3,14 +3,13 @@ kind: Rollout
 metadata:
   name: {{ include "service-chart.fullname" . }}
   labels:
-    {{- include "service-chart.labels" . | nindent 4 }}
+    {{- include "service-chart.standardLabels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: {{ include "service-chart.name" . }}
-      release: {{ .Release.Name }}
+      {{- include "service-chart.selectorLabels" . | nindent 6  }}
   strategy:
     blueGreen:
       activeService: {{ include "service-chart.fullname" . }}
@@ -31,12 +30,23 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: {{ .Values.probes.liveness.path | default "/" }}
               port: http
+              initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds | default 30 }}
+              periodSeconds: {{ .Values.probes.liveness.periodSeconds | default 10 }}
           readinessProbe:
             httpGet:
-              path: /
+              path: {{ .Values.probes.readiness.path | default "/" }}
               port: http
+              initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds | default 30 }}
+              periodSeconds: {{ .Values.probes.readiness.periodSeconds | default 10 }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.probes.startup.path | default "/" }}
+              port: http
+              initialDelaySeconds: {{ .Values.probes.startup.initialDelaySeconds | default 30 }}
+              periodSeconds: {{ .Values.probes.startup.periodSeconds | default 10 }}
+              failureThreshold: {{ .Values.probes.startup.failureThreshold | default 30 }}
           resources:
             {{ toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

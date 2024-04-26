@@ -1,10 +1,16 @@
 {{/* Generate the standard labels used on all resources */}}
-{{- define "service-chart.labels" -}}
+{{- define "service-chart.standardLabels" -}}
 app.kubernetes.io/name: "{{ include "service-chart.name" . }}"
 app.kubernetes.io/instance: "{{ .Release.Name }}"
 app.kubernetes.io/version: "{{ .Chart.AppVersion }}"
 app.kubernetes.io/managed-by: "{{ .Release.Service }}"
 {{- end }}
+
+{{- define "service-chart.selectorLabels" -}}
+app: {{ include "service-chart.name" . }}
+release: {{ .Release.Name }}
+{{- end }}
+
 
 {{/* Derive the full name of the application */}}
 {{- define "service-chart.fullname" -}}

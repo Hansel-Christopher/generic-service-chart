@@ -6,7 +6,7 @@ kind: Ingress
 metadata:
   name: {{ include "service-chart.fullname" . }}
   labels:
-    {{- include "service-chart.labels" . | nindent 4 }}
+    {{- include "service-chart.standardLabels" . | nindent 4 }}
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
     kubernetes.io/ingress.class: "{{ .Values.ingress.className }}"

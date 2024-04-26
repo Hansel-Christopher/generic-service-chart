@@ -1,7 +1,9 @@
-replicaCount: 2
+replicaCount: 3
+pdb:
+  minAvailable: 2 
 
 image:
-  repository: password-generator
+  repository: hanselchristopher001/password-generator
   pullPolicy: IfNotPresent
   tag: "v1.0.0"
 
@@ -10,6 +12,20 @@ resources: {}
 nodeSelector: {}
 affinity: {}
 tolerations: {}
+probes:
+  liveness:
+    path: "/"
+    initialDelaySeconds: 30
+    periodSeconds: 10
+  readiness:
+    path: "/"
+    initialDelaySeconds: 20
+    periodSeconds: 5
+  startup:
+    path: "/"
+    initialDelaySeconds: 60
+    periodSeconds: 20
+    failureThreshold: 10
 
 service:
   type: ClusterIP
