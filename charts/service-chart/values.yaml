@@ -8,7 +8,7 @@ autoscaling:
   maxReplicas: 10
   triggers:
     memory:
-      value: "80" 
+      value: "80"
 
 pdb:
   maxUnavailable: 1
@@ -41,7 +41,7 @@ topologySpreadConstraints:
 #         —key: "disktype"
 #           operator: "In"
 #           values:
-#           — ssd   
+#           — ssd
 
 
 image:
