@@ -48,8 +48,7 @@ jobs:
         cat << EOF > helm_output.yaml
         helm template .
         EOF
-        HELM_TEMPLATE=$(cat helm_output.yaml)
-        echo "::set-env name=HELM_TEMPLATE::$HELM_TEMPLATE"
+        echo "HELM_TEMPLATE=$(cat helm_output.yaml)" >> $GITHUB_ENV
 
     - name: Create or Update Comment with Helm Template
       uses: peter-evans/create-or-update-comment@v4
