@@ -45,7 +45,10 @@ jobs:
 
     - name: Read Helm Output File
       id: helm-output
-      run: echo "::set-output name=helm_output::$(cat helm_output.yaml)"
+      run: |
+        echo 'helm_output<<EOF' >> $GITHUB_ENV
+        cat helm_output.yaml >> $GITHUB_ENV
+        echo 'EOF' >> $GITHUB_ENV
 
     - name: Create or Update Comment with Helm Template
       uses: peter-evans/create-or-update-comment@v4
