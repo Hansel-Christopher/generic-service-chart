@@ -32,21 +32,21 @@ spec:
             httpGet:
               path: {{ .Values.probes.liveness.path | default "/" }}
               port: http
-              initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds | default 30 }}
-              periodSeconds: {{ .Values.probes.liveness.periodSeconds | default 10 }}
+            initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds | default 30 }}
+            periodSeconds: {{ .Values.probes.liveness.periodSeconds | default 10 }}
           readinessProbe:
             httpGet:
               path: {{ .Values.probes.readiness.path | default "/" }}
               port: http
-              initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds | default 30 }}
-              periodSeconds: {{ .Values.probes.readiness.periodSeconds | default 10 }}
+            initialDelaySeconds: {{ .Values.probes.readiness.initialDelaySeconds | default 30 }}
+            periodSeconds: {{ .Values.probes.readiness.periodSeconds | default 10 }}
           startupProbe:
             httpGet:
               path: {{ .Values.probes.startup.path | default "/" }}
               port: http
-              initialDelaySeconds: {{ .Values.probes.startup.initialDelaySeconds | default 30 }}
-              periodSeconds: {{ .Values.probes.startup.periodSeconds | default 10 }}
-              failureThreshold: {{ .Values.probes.startup.failureThreshold | default 30 }}
+            initialDelaySeconds: {{ .Values.probes.startup.initialDelaySeconds | default 30 }}
+            periodSeconds: {{ .Values.probes.startup.periodSeconds | default 10 }}
+            failureThreshold: {{ .Values.probes.startup.failureThreshold | default 30 }}
           resources:
             {{ toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
