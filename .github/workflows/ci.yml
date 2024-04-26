@@ -10,7 +10,9 @@ on:
 jobs:
   helm-lint-and-template:
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: read
+      pull-requests: write
 
     steps:
     - name: Checkout
@@ -27,11 +29,23 @@ jobs:
         python-version: '3.12'
         check-latest: true
 
-    - name: Generate Helm Template
-      id: helm-template
-      run: |
-        OUTPUT=$(helm template .)
-        echo "::set-output name=helm_output::$OUTPUT"
+    - name: Generate Helm Template and Write to File
+      run: helm template . > helm_output.yaml
+
+    - name: Upload Helm Template as Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: helm-template-output
+        path: helm_output.yaml
+
+    - name: Download Helm Template Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: helm-template-output
+
+    - name: Read Helm Output File
+      id: helm-output
+      run: echo "::set-output name=helm_output::$(cat helm_output.yaml)"
 
     - name: Create or Update Comment with Helm Template
       uses: peter-evans/create-or-update-comment@v4
@@ -40,9 +54,9 @@ jobs:
         body: |
           **Helm Template Output:**
           ```
-          ${{ steps.helm-template.outputs.helm_output }}
+          ${{ steps.helm-output.outputs.helm_output }}
           ```
-        reactions: 'eyes'  # Adjust the emoji reaction as needed
+        reactions: 'eyes'  # Emoji reaction
 
     - name: Pre-commit Checks
       uses: pre-commit/action@v2.0.3
