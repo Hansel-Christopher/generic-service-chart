@@ -1,0 +1,49 @@
+name: Helm Chart CI
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  helm-lint-and-template:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v1
+      with:
+        version: '3.x'
+
+    - name: Helm Lint
+      run: |
+        helm lint ./charts/my-chart
+
+    - name: Helm Format
+      run: |
+        helm plugin install https://github.com/mbenabda/helm-local-chart-version
+        helm local-chart-version bump patch ./charts/my-chart --commit
+
+    - name: Generate Helm Template
+      id: helm-template
+      run: |
+        OUTPUT=$(helm template ./charts/my-chart)
+        echo "::set-output name=helm_output::$OUTPUT"
+
+    - name: Create or Update Comment with Helm Template
+      uses: peter-evans/create-or-update-comment@v4
+      with:
+        issue-number: ${{ github.event.pull_request.number }}
+        body: |
+          **Helm Template Output:**
+          ```
+          ${{ steps.helm-template.outputs.helm_output }}
+          ```
+        reactions: 'eyes'  # Adjust the emoji reaction as needed
+
+    - name: Pre-commit Checks
+      uses: pre-commit/action@v2.0.3
