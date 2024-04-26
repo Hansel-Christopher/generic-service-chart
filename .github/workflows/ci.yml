@@ -9,9 +9,9 @@ on:
 jobs:
   helm-lint-and-template:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: helm/charts/my-chart
+    # defaults:
+    #   run:
+    #     working-directory: .
 
     steps:
     - name: Checkout
