@@ -88,3 +88,6 @@ ingress:
         - path: /
           pathType: ImplementationSpecific
   tls: []
+
+serviceMonitor:
+  enabled: false
