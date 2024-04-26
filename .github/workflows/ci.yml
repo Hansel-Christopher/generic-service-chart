@@ -1,7 +1,7 @@
 name: Helm Chart CI
 
 on:
-  pull_request:
+  pull_request_target:
     branches: [ main ]
   push:
     branches: [ main ]
@@ -58,7 +58,7 @@ jobs:
           ```
           ${{ steps.helm-template.outputs.helm_output }}
           ```
-        reactions: 'eyes'  # Adjust the emoji reaction as needed
+        reactions: 'eyes'
 
     - name: Pre-commit Checks
       uses: pre-commit/action@v2.0.3
