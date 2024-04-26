@@ -13,6 +13,37 @@ autoscaling:
 pdb:
   maxUnavailable: 1
 
+topologySpreadConstraints:
+  # - maxSkew: 1
+  #   topologyKey: kubernetes.io/hostname
+  #   whenUnsatisfiable: ScheduleAnyway
+  #   labelSelector:
+  #     matchExpressions:
+  #     - key: disktype
+  #       operator: In
+  #       values:
+  #       - ssd
+  # - maxSkew: 1
+  #   topologyKey: topology.kubernetes.io/zone
+  #   whenUnsatisfiable: ScheduleAnyway
+  #   labelSelector:
+  #     matchExpressions:
+  #     - key: disktype
+  #       operator: In
+  #       values:
+  #       - ssd
+
+# affinity:
+#   nodeAffinity:
+#     requiredDuringSchedulingIgnoredDuringExecution:
+#       nodeSelectorTerms:
+#       —matchExpressions:
+#         —key: "disktype"
+#           operator: "In"
+#           values:
+#           — ssd   
+
+
 image:
   repository: hanselchristopher001/password-generator
   pullPolicy: IfNotPresent
@@ -23,16 +54,20 @@ resources: {}
 nodeSelector: {}
 affinity: {}
 tolerations: {}
+
 probes:
   liveness:
+    enabled: false
     path: "/"
     initialDelaySeconds: 30
     periodSeconds: 10
   readiness:
+    enabled: true
     path: "/"
     initialDelaySeconds: 20
     periodSeconds: 5
   startup:
+    enabled: true
     path: "/"
     initialDelaySeconds: 60
     periodSeconds: 20

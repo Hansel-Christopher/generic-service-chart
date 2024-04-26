@@ -30,12 +30,14 @@ spec:
             - name: http
               containerPort: {{ .Values.containerPort }}
               protocol: TCP
+          {{- if .Values.probes.liveness.enabled }}
           livenessProbe:
             httpGet:
               path: {{ .Values.probes.liveness.path | default "/" }}
               port: http
             initialDelaySeconds: {{ .Values.probes.liveness.initialDelaySeconds | default 30 }}
             periodSeconds: {{ .Values.probes.liveness.periodSeconds | default 10 }}
+          {{- end }}
           readinessProbe:
             httpGet:
               path: {{ .Values.probes.readiness.path | default "/" }}
@@ -58,6 +60,10 @@ spec:
       {{- with .Values.affinity }}
       affinity:
         {{ toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.tolerations }}
       tolerations:
