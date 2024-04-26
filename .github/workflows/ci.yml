@@ -43,12 +43,12 @@ jobs:
       with:
         name: helm-template-output
 
-    - name: Read Helm Output File
-      id: helm-output
+    - name: Set Helm Output as Env Var
       run: |
-        echo 'helm_output<<EOF' >> $GITHUB_ENV
+        echo "helm_output<<EOF" >> $GITHUB_ENV
         cat helm_output.yaml >> $GITHUB_ENV
-        echo 'EOF' >> $GITHUB_ENV
+        echo "EOF" >> $GITHUB_ENV
+        echo "::set-output name=helm_output::$(cat helm_output.yaml)"
 
     - name: Create or Update Comment with Helm Template
       uses: peter-evans/create-or-update-comment@v4
@@ -59,7 +59,7 @@ jobs:
           ```
           ${{ steps.helm-output.outputs.helm_output }}
           ```
-        reactions: 'eyes'  # Emoji reaction
+        reactions: 'eyes'
 
     - name: Pre-commit Checks
       uses: pre-commit/action@v2.0.3
