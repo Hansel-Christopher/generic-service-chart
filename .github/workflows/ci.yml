@@ -10,8 +10,7 @@ on:
 jobs:
   helm-lint-and-template:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
+    permissions: write-all
 
     steps:
     - name: Checkout
