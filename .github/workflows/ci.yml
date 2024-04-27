@@ -63,6 +63,8 @@ jobs:
             const body = `🔍 **Detailed Helm Plan Output:**\n${summary}\nPlease review the proposed changes. 👀`;
             const comment = await github.rest.issues.createComment({
                 issue_number: context.issue.number,
+                body: body
+            });
 
     - name: Pre-commit Checks
       uses: pre-commit/action@v2.0.3
