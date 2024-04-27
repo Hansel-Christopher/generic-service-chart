@@ -61,7 +61,7 @@ jobs:
             const fs = require('fs');
             const summaryPath = './summary.md';
             const summary = fs.existsSync(summaryPath) ? fs.readFileSync(summaryPath, 'utf8') : 'No changes detected.';
-            const body = `🔍 **Detailed Helm Plan Output:**\n${summary}\nPlease review the proposed changes. 👀`;
+            const body = `🔍 **Helm Changes:**\n${summary}\n`;
             const comment = await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 body: body,
