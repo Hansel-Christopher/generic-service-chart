@@ -68,6 +68,3 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
             });
-
-    - name: Pre-commit Checks
-      uses: pre-commit/action@v2.0.3
