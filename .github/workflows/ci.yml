@@ -1,0 +1,69 @@
+name: Helm Chart CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [ main ]
+  push:
+    branches: [ main ]
+
+jobs:
+  helm-lint-and-template:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v4.2.0
+      with:
+        version: 'latest'
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+        check-latest: true
+
+    - name: Generate Helm Template and Write to File
+      run: |
+        helm template charts/service-chart > helm_output.txt
+        echo "::set-output name=helm_output_path::$(pwd)/helm_output.txt"
+      id: helm-operations
+
+    - name: Upload Helm template
+      uses: actions/upload-artifact@v4
+      with:
+        name: helm-plans
+        path: '**/helm_output.txt'
+
+    - name: Create and Publish Summary Comments
+      run: |
+        HELM_OUTPUT_PATH="${{ steps.helm-operations.outputs.helm_output_path }}"
+        if [ -f "$HELM_OUTPUT_PATH" ]; then
+          SUMMARY=$(cat $HELM_OUTPUT_PATH)
+          echo '```' >> summary.md
+          cat $HELM_OUTPUT_PATH >> summary.md
+          echo '```' >> summary.md
+        fi
+
+    - name: Push Helm Output to PR
+      if: github.ref != 'refs/heads/main'
+      uses: actions/github-script@v7
+      with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const summaryPath = './summary.md';
+            const summary = fs.existsSync(summaryPath) ? fs.readFileSync(summaryPath, 'utf8') : 'No changes detected.';
+            const body = `🔍 **Helm Template Changes:**\n${summary}\n`;
+            const comment = await github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                body: body,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+            });
