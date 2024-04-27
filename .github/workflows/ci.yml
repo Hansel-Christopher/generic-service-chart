@@ -30,22 +30,39 @@ jobs:
         check-latest: true
 
     - name: Generate Helm Template and Write to File
-      run: helm template . > helm_output.yaml
-
-    - name: Set up chart-testing
-      uses: helm/chart-testing-action@v2.6.1
-
-    - name: Run chart-testing (list-changed)
-      id: list-changed
       run: |
-        changed=$(ct list-changed --target-branch ${{ github.event.repository.default_branch }})
-        if [[ -n "$changed" ]]; then
-          echo "changed=true" >> "$GITHUB_OUTPUT"
+        helm template charts/service-chart > helm_output.txt
+        echo "::set-output name=helm_output_path::$(pwd)/helm_output.txt"
+      id: helm-operations
+
+    - name: Upload Helm template
+      uses: actions/upload-artifact@v4
+      with:
+        name: helm-plans
+        path: '**/helm_output.txt'
+
+    - name: Create and Publish Summary Comments
+      run: |
+        HELM_OUTPUT_PATH="${{ steps.helm-operations.outputs.helm_output_path }}"
+        if [ -f "$HELM_OUTPUT_PATH" ]; then
+          SUMMARY=$(cat $HELM_OUTPUT_PATH)
+          echo "Helm Template Output for $DIR:" >> summary.md
+          echo '```' >> summary.md
+          cat $HELM_OUTPUT_PATH >> summary.md
+          echo '```' >> summary.md
         fi
 
-    - name: Run chart-testing (lint)
-      if: steps.list-changed.outputs.changed == 'true'
-      run: ct lint --target-branch ${{ github.event.repository.default_branch }}
+    - name: Push Helm Output to PR
+      if: github.ref != 'refs/heads/main'
+      uses: actions/github-script@v7
+      with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const summaryPath = './summary.md';
+            const summary = fs.existsSync(summaryPath) ? fs.readFileSync(summaryPath, 'utf8') : 'No changes detected.';
+            const body = `🔍 **Detailed Helm Plan Output:**\n${summary}\nPlease review the proposed changes. 👀`;
+            const comment = await github.rest.issues.createComment({
+                issue_number: context.issue.number,
 
     - name: Pre-commit Checks
       uses: pre-commit/action@v2.0.3
