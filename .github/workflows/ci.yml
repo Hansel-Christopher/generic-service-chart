@@ -46,7 +46,6 @@ jobs:
         HELM_OUTPUT_PATH="${{ steps.helm-operations.outputs.helm_output_path }}"
         if [ -f "$HELM_OUTPUT_PATH" ]; then
           SUMMARY=$(cat $HELM_OUTPUT_PATH)
-          echo "Helm Template Output for $DIR:" >> summary.md
           echo '```' >> summary.md
           cat $HELM_OUTPUT_PATH >> summary.md
           echo '```' >> summary.md
@@ -61,7 +60,7 @@ jobs:
             const fs = require('fs');
             const summaryPath = './summary.md';
             const summary = fs.existsSync(summaryPath) ? fs.readFileSync(summaryPath, 'utf8') : 'No changes detected.';
-            const body = `🔍 **Helm Changes:**\n${summary}\n`;
+            const body = `🔍 **Helm Template Changes:**\n${summary}\n`;
             const comment = await github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 body: body,
