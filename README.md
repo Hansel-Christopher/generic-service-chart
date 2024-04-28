@@ -15,10 +15,7 @@ Collection of Helm charts to deploy services on Kubernetes
     - **.helmignore**: A file that specifies patterns to ignore when packaging the chart.
 
 - **.github/**: Contains GitHub Actions CI/CD workflows
-- **.helmignore**: Patterns to ignore when building packages
 - **.gitignore**: Patterns to ignore when commiting files to Git repository
-
-
 
 ## Usage
 
@@ -37,7 +34,7 @@ helm package service-chart
 ### Installation
 
 ```bash
- helm install <release_name> ./service-chart -n services
+ helm install <release_name> charts/service-chart -n services
 ```
 
 ## Pre-commit Hooks
