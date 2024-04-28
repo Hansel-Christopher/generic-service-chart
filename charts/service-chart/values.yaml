@@ -69,7 +69,7 @@ probes:
   startup:
     enabled: true
     path: "/"
-    initialDelaySeconds: 60
+    initialDelaySeconds: 30
     periodSeconds: 20
     failureThreshold: 10
 
