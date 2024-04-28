@@ -1,6 +1,6 @@
 # service-chart
 
-![Version: 0.7.0](https://img.shields.io/badge/Version-0.7.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 0.8.0](https://img.shields.io/badge/Version-0.8.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -26,7 +26,7 @@ A Helm chart for Kubernetes
 | ingress.tls | list | `[]` |  |
 | nodeSelector | object | `{}` |  |
 | pdb.maxUnavailable | int | `1` |  |
-| probes.liveness.enabled | bool | `false` |  |
+| probes.liveness.enabled | bool | `true` |  |
 | probes.liveness.initialDelaySeconds | int | `30` |  |
 | probes.liveness.path | string | `"/"` |  |
 | probes.liveness.periodSeconds | int | `10` |  |
@@ -43,6 +43,7 @@ A Helm chart for Kubernetes
 | resources | object | `{}` |  |
 | service.port | int | `80` |  |
 | service.type | string | `"ClusterIP"` |  |
+| serviceMonitor.enabled | bool | `true` |  |
 | tolerations | object | `{}` |  |
 | topologySpreadConstraints | string | `nil` |  |
 

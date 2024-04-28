@@ -57,7 +57,7 @@ tolerations: {}
 
 probes:
   liveness:
-    enabled: false
+    enabled: true
     path: "/"
     initialDelaySeconds: 30
     periodSeconds: 10
@@ -90,4 +90,4 @@ ingress:
   tls: []
 
 serviceMonitor:
-  enabled: false
+  enabled: true
