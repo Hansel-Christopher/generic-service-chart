@@ -1,9 +1,9 @@
-fullnameOverride: ""
+fullnameOverride: "example-app"
 
 deploymentAnnotations: {}
   # example: "annotation"
 
-replicaCount: 3
+replicaCount: 1
 
 resources:
   requests:

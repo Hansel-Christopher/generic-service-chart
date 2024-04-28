@@ -14,6 +14,7 @@ A Helm chart for Kubernetes
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.triggers.memory.value | string | `"80"` |  |
 | containerPort | int | `5000` |  |
+| deploymentAnnotations | object | `{}` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"hanselchristopher001/password-generator"` |  |
@@ -21,8 +22,11 @@ A Helm chart for Kubernetes
 | ingress.annotations | object | `{}` |  |
 | ingress.className | string | `"nginx"` |  |
 | ingress.enabled | bool | `false` |  |
-| ingress.hosts[0].paths[0].path | string | `"/"` |  |
-| ingress.hosts[0].paths[0].pathType | string | `"ImplementationSpecific"` |  |
+| ingress.hosts[0].host | string | `"localhost"` |  |
+| ingress.hosts[0].paths[0].path | string | `"/generate-passwords"` |  |
+| ingress.hosts[0].paths[0].pathType | string | `"Prefix"` |  |
+| ingress.hosts[0].paths[1].path | string | `"/"` |  |
+| ingress.hosts[0].paths[1].pathType | string | `"Prefix"` |  |
 | ingress.tls | list | `[]` |  |
 | nodeSelector | object | `{}` |  |
 | pdb.maxUnavailable | int | `1` |  |
@@ -40,7 +44,10 @@ A Helm chart for Kubernetes
 | probes.startup.path | string | `"/"` |  |
 | probes.startup.periodSeconds | int | `20` |  |
 | replicaCount | int | `3` |  |
-| resources | object | `{}` |  |
+| resources.limits.cpu | string | `"200m"` |  |
+| resources.limits.memory | string | `"512Mi"` |  |
+| resources.requests.cpu | string | `"100m"` |  |
+| resources.requests.memory | string | `"256Mi"` |  |
 | service.port | int | `80` |  |
 | service.type | string | `"ClusterIP"` |  |
 | serviceMonitor.enabled | bool | `true` |  |

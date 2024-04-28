@@ -3,7 +3,7 @@ kind: PodDisruptionBudget
 metadata:
   name: {{ include "service-chart.fullname" . }}
   labels:
-    {{- include "service-chart.standardLabels" . }}
+    {{- include "service-chart.standardLabels" . | nindent 4 }}
 spec:
   maxUnavailable: {{ .Values.pdb.maxUnavailable | default 1 }}
   selector:
