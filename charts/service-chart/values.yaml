@@ -100,3 +100,5 @@ topologySpreadConstraints:
   #       operator: In
   #       values:
   #       - ssd
+
+blueGreen: {}

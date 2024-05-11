@@ -13,6 +13,7 @@ A Helm chart for Kubernetes
 | autoscaling.maxReplicas | int | `10` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.triggers.memory.value | string | `"80"` |  |
+| blueGreen | object | `{}` |  |
 | containerPort | int | `5000` |  |
 | deploymentAnnotations | object | `{}` |  |
 | fullnameOverride | string | `""` |  |

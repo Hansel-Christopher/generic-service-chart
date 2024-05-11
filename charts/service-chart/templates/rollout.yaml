@@ -20,6 +20,8 @@ spec:
     blueGreen:
       activeService: {{ include "service-chart.fullname" . }}
       previewService: {{ include "service-chart.fullname" . }}-preview
+      autoPromotionEnabled: {{ .Values.blueGreen.autoPromotionEnabled | default true }}
+      scaleDownDelaySeconds: {{ .Values.blueGreen.scaleDownDelaySeconds | default 30 }}
   template:
     metadata:
       labels:
