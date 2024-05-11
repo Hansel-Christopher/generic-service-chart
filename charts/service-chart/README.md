@@ -1,6 +1,6 @@
 # service-chart
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.0.3](https://img.shields.io/badge/Version-1.0.3-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -13,7 +13,8 @@ A Helm chart for Kubernetes
 | autoscaling.maxReplicas | int | `10` |  |
 | autoscaling.minReplicas | int | `1` |  |
 | autoscaling.triggers.memory.value | string | `"80"` |  |
-| blueGreen | object | `{}` |  |
+| blueGreen.autoPromotionEnabled | string | `"true"` |  |
+| blueGreen.scaleDownDelaySeconds | int | `30` |  |
 | containerPort | int | `5000` |  |
 | deploymentAnnotations | object | `{}` |  |
 | fullnameOverride | string | `""` |  |

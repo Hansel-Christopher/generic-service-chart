@@ -101,4 +101,6 @@ topologySpreadConstraints:
   #       values:
   #       - ssd
 
-blueGreen: {}
+blueGreen:
+  autoPromotionEnabled: "true"
+  scaleDownDelaySeconds: 30
