@@ -1,6 +1,6 @@
 # service-chart
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
+![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
 A Helm chart for Kubernetes
 
@@ -31,16 +31,16 @@ A Helm chart for Kubernetes
 | nodeSelector | object | `{}` |  |
 | pdb.maxUnavailable | int | `1` |  |
 | probes.liveness.enabled | bool | `true` |  |
-| probes.liveness.initialDelaySeconds | int | `30` |  |
+| probes.liveness.initialDelaySeconds | int | `10` |  |
 | probes.liveness.path | string | `"/"` |  |
 | probes.liveness.periodSeconds | int | `10` |  |
 | probes.readiness.enabled | bool | `true` |  |
-| probes.readiness.initialDelaySeconds | int | `20` |  |
+| probes.readiness.initialDelaySeconds | int | `10` |  |
 | probes.readiness.path | string | `"/"` |  |
 | probes.readiness.periodSeconds | int | `5` |  |
 | probes.startup.enabled | bool | `true` |  |
 | probes.startup.failureThreshold | int | `10` |  |
-| probes.startup.initialDelaySeconds | int | `30` |  |
+| probes.startup.initialDelaySeconds | int | `10` |  |
 | probes.startup.path | string | `"/"` |  |
 | probes.startup.periodSeconds | int | `20` |  |
 | replicaCount | int | `3` |  |
